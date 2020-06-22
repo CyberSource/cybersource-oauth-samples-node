@@ -2,6 +2,20 @@
 
 This repository provides a simple sample application demonstrating OAuth authentication to CyberSource.
 
+## Usage
+
+1. Clone or download this repository.
+2. cd into the express-oauth directory
+3. Update app.js with your [CyberSource sandbox credentials](https://ebc2test.cybersource.com). 
+4. Run ```npm install```
+5. Run ```DEBUG=express-oauth:* npm start```
+6. Browse to http://localhost:3000/checkout in your browser
+
+## Requirements
+* Node
+* Express
+* NPM
+
 ## Who Should Use This Sample
 Software partners with a cloud-based SAAS application, such as an e-commerce application, invoicing application, any software which requires payments, can use this sample to connect their customers accounts to their CyberSource account.  Using OAuth you can remove all the manual steps required to guide your users through the generation, retrieval and input of API keys.  All your users need to do is validate their CyberSource account, approve the connection of your software with their CyberSource account and they're ready to go.
 
