@@ -9,7 +9,7 @@ This repository provides a simple sample application demonstrating OAuth authent
 3. Update app.js with your [CyberSource sandbox credentials](https://ebc2test.cybersource.com). 
 4. Run ```npm install```
 5. Run ```DEBUG=express-oauth:* npm start```
-6. Browse to http://localhost:3000/checkout in your browser
+6. Browse to http://localhost:3000/ in your browser
 
 ## Requirements
 * Node
