@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Demonstrate CyberSource OAuth 2.0</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <style>
+    .btn { border-radius: 5px; box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.25);font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif; }
+    .white-label, .white-label:hover, .white-label:active { background-color: #b41b33!important; border-color:#b41b33;color: #f9c706;}
+    .blue, .blue:hover, .blue:active { background-color: #1a1f71!important;border-color:#1a1f71;}
+    .lead {margin-bottom:2em;}
+    </style>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+
+<div class="container">
+      <div class="header clearfix6">
+        <h3 class="text-muted"><b>Acme Analytics </b></h3><h4> Admin</h4>
+
+       </div>
+
+      <div class="row marketing">
+        <div class="col-lg-2">
+         <h5>ACCOUNT</h5>
+         <p>Billing and Usage</p>
+         <p>Account Profile</p>
+         <p>Security Settings</p>
+         <p>Add Payment Gateway</p>
+         <h5>USERS</h5>
+         <p>Users</p>
+         <p>Roles</p>
+         <p>Groups</p>
+         <h5>DASHBOARDS</h5>
+         <p>Alert Preferences</p>
+         <p>Export Preferences</p>
+         <p>Custom Branding</p>
+      </div>
+
+      <div class="col-lg-10">
+      <div class="jumbotron">
+        <h2>Connect your payment gateway </h2><!--  <img src="https://cdn3.iconfinder.com/data/icons/flat-actions-icons-9/792/Tick_Mark_Circle-512.png" height="50%" width="50px%"/> -->
+       
+        <p class="lead">Connect your payment gateway to Acme Analytics so you can easily manage your online business.</p>
+        <div class="row">
+          <div class="col-lg-3 previous">
+            <a class="btn btn-lg btn-primary btn-block" href="https://cybsbank.ubctest.cybersource.com/ebc2/oauth/authorize?sub=oauth&redirect_url=https://localhost:3000?client_id=imCLSbPVeO&state=stateValue" role="button" src="">Dot Bank </a></div>
+          <div class="col-lg-3 next">
+            <a class="btn btn-lg btn-primary btn-block blue" href="https://ebctest.cybersource.com/ebc2/oauth/authorize?sub=oauth&redirect_url=https://localhost:3000?client_id=imCLSbPVeO&state=stateValue" role="button">CyberSource </a></div>
+          <div class="col-lg-3 next">
+           <a class="btn btn-lg btn-primary btn-block white-label" href="https://ebctest.cybersource.com/ebc2/oauth/authorize?sub=oauth&redirect_url= https://irisyuan.github.io/acme-portal.html&client_id=imCLSbPVeO&state=stateValue" role="button">Great Bank </a></div>
+         </div>
+      </div>
+      <div class="row marketing">
+        <div class="col-lg-6">
+          <h4>Overview</h4>
+          <p>This page demonstrates the retrieval of an OAuth 2.0 Access Token which can be used by a CyberSource partner (client application - see below) to access CyberSource ON BEHALF OF a CyberSource merchant (Resource Owner - see below).</p>
+
+          <h4>OAuth 2.0 Clients</h4>
+          <p>In OAuth 2.0 nomenclature a CyberSource partner application (e.g. shopping cart, analytics application, invoicing solution, etc.) is referred to as a Client Application.</p>
+
+          <h4>OAuth 2.0 Resource Owners</h4>
+          <p>In the CyberSource ecosystem, the Resource Owners are merchants.  The client applications use the CyberSource OAuth 2.0 flow to transact with the merchant resources via our APIs. E.g. retrieve merchant subscriptions data.</p>
+        </div>
+        <div class="col-lg-6">
+          <h4>Step 1:</h4>
+          <p>Connect with the CyberSource OAuth 2.0 Authorization endpoint (see source behind button above).</p>
+
+          <h4>Step 2:</h4>
+          <p>Use the Authorization Code returned from Step 1 to retrieve an Access Token (and Refresh Token) from our /token RESTful endpoint.</p>
+          <p>POST : https://api-ma.cybersource.com/oauth2/v3/token</p>
+
+        <p>Content-Type: application/x-www-form-urlencoded
+v-c-client-correlation-id: 123456789</p>
+<p>
+grant_type=authorization_code&code=sg#thsu67&client_id=o2client</p>
+
+          <h4>Step 3:</h4>
+          <p>Use the Access Code from Step 2 to access the CyberSource API (TBD)</p>
+          
+         
+          <p><b>Sample Request</b></p>
+          <p>
+            <code>
+   Authorization: Bearer
+eyJraWQiOiIyNmRjfjVkZTdlMmYwYTI0ODg0MjU1YjIwZWJjMGY0MSIsImFs
+curl -X POST -H "Authorization: Bearer ACCESS_TOKEN""https://
+api.cybersource.com/pts/v2/payments"
+            </code>
+          </p>
+        </div>
+      </div>
+     
+    </div>
+    </div> 
+
+      <footer class="footer">
+      <p>&copy; 2020 Acme Analytics, Inc.</p>
+    </footer>
+    </div><!-- /container -->
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+
+    <!--
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+
+  -->
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+
+    <!--
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+  -->
+  </body>
+</html>
