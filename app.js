@@ -79,7 +79,7 @@ app.get('/authorize', function (req, res) {
                 var accesstoken = "";
 
                 
-                res.render('accesstoken', { accesstoken: authCode};
+                res.render('accesstoken', { accesstoken: authCode});
                     
             } catch (error) {
                 console.log(error);
