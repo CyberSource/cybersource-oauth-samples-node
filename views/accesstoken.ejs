@@ -42,12 +42,12 @@
         </div>
         <script>
             var payButton = document.querySelector('#pay-button');
-            var flexResponse = document.querySelector('#flexresponse');
+            var accessToken = document.querySelector('#accesstoken');
             var form = document.querySelector('#my-token-form');
 
             payButton.addEventListener('click', function() {  
                   
-                  var token = <%-flexresponse%> ;
+                  var token = <%-accesstoken%> ;
                   console.log(JSON.stringify(token));
                   flexResponse.value = JSON.stringify(token);
                   form.submit();
