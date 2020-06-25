@@ -32,22 +32,22 @@ const LogfileMaxSize = '5242880'; //10 MB In Bytes
 
 
 var configObj = {
-	'authenticationType': AuthenticationType,	
-	'runEnvironment': RunEnvironment,
+    'authenticationType': AuthenticationType,   
+    'runEnvironment': RunEnvironment,
 
-	'merchantID': MerchantId,
-	'merchantKeyId': MerchantKeyId,
-	'merchantsecretKey': MerchantSecretKey,
+    'merchantID': MerchantId,
+    'merchantKeyId': MerchantKeyId,
+    'merchantsecretKey': MerchantSecretKey,
     
-	'keyAlias': KeyAlias,
-	'keyPass': KeyPass,
-	'keyFileName': KeyFileName,
-	'keysDirectory': KeysDirectory,
+    'keyAlias': KeyAlias,
+    'keyPass': KeyPass,
+    'keyFileName': KeyFileName,
+    'keysDirectory': KeysDirectory,
     
-	'enableLog': EnableLog,
-	'logFilename': LogFileName,
-	'logDirectory': LogDirectory,
-	'logFileMaxSize': LogfileMaxSize
+    'enableLog': EnableLog,
+    'logFilename': LogFileName,
+    'logDirectory': LogDirectory,
+    'logFileMaxSize': LogfileMaxSize
 };
 
 
@@ -66,37 +66,21 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-// THIS IS THE SERVER-SIDE REQUEST TO GENERATE THE DYNAMIC KEY 
-// REQUIRED FOR THE MICROFORM TO TOKENIZE
-app.get('/checkout', function (req, res) {
+// THIS IS THE SERVER-SIDE REQUEST TO RETRIEVE THE ACCESS TOKEN
+// USING THE AUTH CODE AND THE CLIENT CREDENTIALS
+app.get('/authorize', function (req, res) {
 
         try {
-                var instance = new cybersourceRestApi.KeyGenerationApi(configObj);
+                var authCode = req.query.code;
 
-                var request = new cybersourceRestApi.GeneratePublicKeyRequest();
-                request.encryptionType = 'RsaOaep256';
-                request.targetOrigin = 'http://localhost:3000';
+                console.log('Authorization Code : ' + authCode);
 
-                var opts = [];
-                opts['format'] = 'JWT';
+                // This is where we will call /oauth2/v3/token
+                var accesstoken = "";
 
-                console.log('\n*************** Generate Key ********************* ');
                 
-                instance.generatePublicKey(request, opts, function (error, data, response) {
-                    if (error) {
-                        console.log('Error : ' + error);
-                        console.log('Error status code : ' + error.statusCode);
-                    }
-                    else if (data) {
-                        console.log('Data : ' + JSON.stringify(data));
-                        console.log('CaptureContext: '+data.keyId);
-                        res.render('index', { keyInfo: JSON.stringify(data.keyId)});
-                    }
-                    console.log('Response : ' + JSON.stringify(response));
-                    console.log('Response Code Of GenerateKey : ' + response['status']);
-                    callback(error, data);
-                });
-                
+                res.render('accesstoken', { accesstoken: authCode};
+                    
             } catch (error) {
                 console.log(error);
             }
@@ -105,15 +89,15 @@ app.get('/checkout', function (req, res) {
 
 // THIS ROUTE SIMPLY POWERS THE TOKEN PAGE TO DISPLAY THE TOKEN
 // NOTE THIS IS AN INTERIM STEP FOR THE SAMPLE AND WOULD OBVIOUSLY
-// NOT BE PART OR A REAL CHECKOUT FLOW
-app.post('/token', function (req, res) {
+// NOT BE PART OR A REAL CONNECT FLOW
+app.post('/accesstoken', function (req, res) {
 
         try {
                
                 console.log('Response : ' + req.body.flexresponse);
                 var tokenResponse = JSON.parse(req.body.flexresponse)
 
-                res.render('token', { flexresponse:  req.body.flexresponse} );
+                res.render('accesstoken', { flexresponse:  req.body.flexresponse} );
                         
         } catch (error) {
                 res.send('Error : ' + error + ' Error status code : ' + error.statusCode);
@@ -124,9 +108,9 @@ app.post('/token', function (req, res) {
 
 // THIS REPRESENTS THE SERVER-SIDE REQUEST TO MAKE A PAYMENT WITH THE TRANSIENT
 // TOKEN
-app.post('/receipt', function (req, res) {
+app.post('/apicall', function (req, res) {
 
-        var tokenResponse = JSON.parse(req.body.flexresponse)
+        var accessToken = JSON.parse(req.body.flexresponse)
         console.log('Transient token for payment is: ' + JSON.stringify(tokenResponse));
 
          try {
