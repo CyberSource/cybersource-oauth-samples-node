@@ -9,6 +9,12 @@ var usersRouter = require('./routes/users');
 
 var cybersourceRestApi = require('cybersource-rest-client');
 
+var querystring = require('querystring');
+var https = require('https');
+
+var host = 'apitest-ma.cybersource.com/oauth2/v3/token';
+
+
 // common parameters
 const AuthenticationType = 'http_signature';
 const RunEnvironment = 'cybersource.environment.SANDBOX';
@@ -30,25 +36,6 @@ const LogFileName = 'cybs';
 const LogDirectory = '../log';
 const LogfileMaxSize = '5242880'; //10 MB In Bytes
 
-
-var configObj = {
-    'authenticationType': AuthenticationType,   
-    'runEnvironment': RunEnvironment,
-
-    'merchantID': MerchantId,
-    'merchantKeyId': MerchantKeyId,
-    'merchantsecretKey': MerchantSecretKey,
-    
-    'keyAlias': KeyAlias,
-    'keyPass': KeyPass,
-    'keyFileName': KeyFileName,
-    'keysDirectory': KeysDirectory,
-    
-    'enableLog': EnableLog,
-    'logFilename': LogFileName,
-    'logDirectory': LogDirectory,
-    'logFileMaxSize': LogfileMaxSize
-};
 
 
 var app = express();
@@ -78,8 +65,50 @@ app.get('/authorize', function (req, res) {
                 // This is where we will call /oauth2/v3/token
                 var accesstoken = "";
 
+                // THIS CLIENT SECRET SHOULD BE MANAGED LIKE ANY OTHER SHARED SECRET AND NOT SHARED IN BROWSER,
+                // MOBILE DEVICE OR ANY OTHER CLIENT SIDE CODE 
+                // (READ PUBLIC FOR MOBILE DEVICE REGARDLESS OF WHAT PHONE MANUFACTURERS TELL YOU)
+                var clientSecret = process.env.CLIENT_SECRET;
+
+                // The CLient ID is a public shareable value
+                var clientId = "imCLSbPVeO";
+
+                var dataString = "client_id="+clientId+"&grant_type=access_token&code="+authCode+"&client_secret="+clientSecret;
+                var method = "POST";
+
+                var headers = {
+                  'Content-Type': 'application/json',
+                  'Content-Length': dataString.length
+                };
+
+                var options = {
+                    host: host,
+                    path: endpoint,
+                    method: method,
+                    headers: headers
+                  };
+
+                var req = https.request(options, function(res) {
+                res.setEncoding('utf-8');
+
+                var responseString = '';
+
+                res.on('data', function(data) {
+                  responseString += data;
+                });
+
+                res.on('end', function() {
+                  console.log(responseString);
+                  var responseObject = JSON.parse(responseString);
+                  success(responseObject);
+                });
+              });
+
+              req.write(dataString);
+              req.end();
+
                 
-                res.render('accesstoken', { accesstoken: authCode});
+                res.render('accesstoken', { accesstoken: responseString});
                     
             } catch (error) {
                 console.log(error);
