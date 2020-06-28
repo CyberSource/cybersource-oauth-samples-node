@@ -12,7 +12,7 @@ var cybersourceRestApi = require('cybersource-rest-client');
 var querystring = require('querystring');
 var https = require('https');
 
-var host = 'apitest-ma.cybersource.com/oauth2/v3/token';
+var host = 'api-matest.cybersource.com/oauth2/v3/token';
 
 
 // common parameters
@@ -71,7 +71,7 @@ app.get('/authorize', function (req, res) {
                 var clientSecret = process.env.CLIENT_SECRET;
 
                 // The CLient ID is a public shareable value
-                var clientId = "imCLSbPVeO";
+                var clientId = "cEhiMuZpFB";
 
                 var dataString = "client_id="+clientId+"&grant_type=access_token&code="+authCode+"&client_secret="+clientSecret;
                 var method = "POST";
