@@ -14,7 +14,7 @@ var https = require('https');
 var fs = require('fs');
 
 var host = 'api-matest.cybersource.com';
-var path = '/oauth2/v3/token';
+var tokenResource = '/oauth2/v3/token';
 
 
 // common parameters
@@ -85,7 +85,7 @@ app.get('/authorize', function (req, res) {
 
                 var options = {
                     host: host,
-                    path: path,
+                    path: tokenResource,
                     method: 'POST',
                     headers: headers,
                     key: fs.readFileSync('pnrstage.ic3.com.pem'), 
