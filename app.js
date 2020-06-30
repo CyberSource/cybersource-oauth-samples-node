@@ -113,9 +113,11 @@ app.get('/authorize', function (req, res) {
               req.write(dataString);
               req.end();
 
+              var responseJson = responseString;
+              var returnedAccessToken = responseJson.access_token;
               
-              console.log("Redirecting to display page with data : "+responseString);
-              res.render('accesstoken', { accesstoken: responseString});
+              console.log("Redirecting to display page with access token : "+returnedAccessToken);
+              res.render('accesstoken', { accesstoken: returnedAccessToken});
                     
             } catch (error) {
                 console.log(error);
