@@ -125,24 +125,6 @@ app.get('/authorize', function (req, res) {
           
 });
 
-// THIS ROUTE SIMPLY POWERS THE TOKEN PAGE TO DISPLAY THE TOKEN
-// NOTE THIS IS AN INTERIM STEP FOR THE SAMPLE AND WOULD OBVIOUSLY
-// NOT BE PART OR A REAL CONNECT FLOW
-app.post('/accesstoken', function (req, res) {
-
-        try {
-               
-                console.log('Response : ' + req.body.flexresponse);
-                var tokenResponse = JSON.parse(req.body.flexresponse)
-
-                res.render('accesstoken', { flexresponse:  req.body.flexresponse} );
-                        
-        } catch (error) {
-                res.send('Error : ' + error + ' Error status code : ' + error.statusCode);
-        }
-  
-
-});
 
 // THIS REPRESENTS THE SERVER-SIDE REQUEST TO MAKE A PAYMENT WITH THE TRANSIENT
 // TOKEN
