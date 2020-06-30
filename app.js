@@ -11,6 +11,7 @@ var cybersourceRestApi = require('cybersource-rest-client');
 
 var querystring = require('querystring');
 var https = require('https');
+var fs = require('fs');
 
 var host = 'api-matest.cybersource.com/oauth2/v3/token';
 
@@ -85,7 +86,9 @@ app.get('/authorize', function (req, res) {
                     host: host,
                     path: endpoint,
                     method: method,
-                    headers: headers
+                    headers: headers,
+                    key: fs.readFileSync('pnrstage.ic3.com.pem'), 
+                    cert: fs.readFileSync('pnrstage.crt')
                   };
 
                 var req = https.request(options, function(res) {
