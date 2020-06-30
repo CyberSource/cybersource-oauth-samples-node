@@ -104,8 +104,6 @@ app.get('/authorize', function (req, res) {
 
                 res.on('end', function() {
                   console.log(responseString);
-                  var responseObject = JSON.parse(responseString);
-                  success(responseObject);
                 });
               });
 
