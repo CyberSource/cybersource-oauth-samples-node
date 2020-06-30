@@ -90,10 +90,11 @@ app.get('/authorize', function (req, res) {
                     cert: fs.readFileSync('pnrstage.crt')
                   };
 
+                var responseString = '';
+                
                 var req = https.request(options, function(res) {
                 res.setEncoding('utf-8');
 
-                var responseString = '';
 
                 res.on('data', function(data) {
                   responseString += data;
@@ -110,7 +111,7 @@ app.get('/authorize', function (req, res) {
               req.end();
 
                 
-                res.render('accesstoken', { accesstoken: responseString});
+              res.render('accesstoken', { accesstoken: responseString});
                     
             } catch (error) {
                 console.log(error);
