@@ -99,18 +99,22 @@ app.get('/authorize', function (req, res) {
 
 
                 res.on('data', function(data) {
+                    console.log("Got data back : "+data);
                   responseString += data;
                 });
 
                 res.on('end', function() {
+                  console.log("done with request");
                   console.log(responseString);
                 });
               });
 
+              console.log("Making request" + dataString);
               req.write(dataString);
               req.end();
 
-                
+              
+              console.log("Redirecting to display page with data : "+responseString);
               res.render('accesstoken', { accesstoken: responseString});
                     
             } catch (error) {
