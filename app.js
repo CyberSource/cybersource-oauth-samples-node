@@ -75,11 +75,11 @@ app.get('/authorize', function (req, res) {
                 // The CLient ID is a public shareable value
                 var clientId = "cEhiMuZpFB";
 
-                var dataString = "client_id="+clientId+"&grant_type=access_token&code="+authCode+"&client_secret="+clientSecret;
+                var dataString = "client_id="+clientId+"&grant_type=authorization_code&code="+authCode+"&client_secret="+clientSecret;
                 var method = "POST";
 
                 var headers = {
-                  'Content-Type': 'application/json',
+                  'Content-Type': 'application/x-www-form-urlencoded',
                   'Content-Length': dataString.length
                 };
 
@@ -88,8 +88,8 @@ app.get('/authorize', function (req, res) {
                     path: tokenResource,
                     method: 'POST',
                     headers: headers,
-                    key: fs.readFileSync('pnrstage.ic3.com.pem'), 
-                    cert: fs.readFileSync('pnrstage.crt')
+                    key: fs.readFileSync('./pnrstage.ic3.com.pem'), 
+                    cert: fs.readFileSync('./pnrstage.crt')
                   };
 
                 var responseString = '';
