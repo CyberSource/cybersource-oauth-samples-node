@@ -84,8 +84,7 @@ app.get('/authorize', function (req, res) {
 
                 var options = {
                     host: host,
-                    path: endpoint,
-                    method: method,
+                    method: "POST",
                     headers: headers,
                     key: fs.readFileSync('pnrstage.ic3.com.pem'), 
                     cert: fs.readFileSync('pnrstage.crt')
