@@ -174,7 +174,7 @@ app.post('/apicall', function (req, res) {
                 });
               });
 
-              console.log("Making request" + dataString);
+              console.log("Making request");
 
               req.end();
                 
