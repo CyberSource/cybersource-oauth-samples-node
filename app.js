@@ -113,12 +113,11 @@ app.get('/authorize', function (req, res) {
               req.write(dataString);
               req.end();
 
-              var responseJson = JSON.parse(JSON.stringify(responseString));
-              console.log("Response JSON" + JSON.stringify(responseJson));
-              var returnedAccessToken = responseJson.access_token;
+              console.log("Response String : " + responseString);
+              console.log("Access Token : " + responseString.access_token);
               
-              console.log("Redirecting to display page with access token : "+returnedAccessToken);
-              res.render('accesstoken', { accesstoken: returnedAccessToken});
+              console.log("Redirecting to display page with access token : "+responseString.access_token);
+              res.render('accesstoken', { accesstoken: JSON.stringify(responseString) } );
                     
             } catch (error) {
                 console.log(error);
