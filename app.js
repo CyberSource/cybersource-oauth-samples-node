@@ -94,16 +94,16 @@ app.get('/authorize', function (req, res) {
 
                 var responseString = '';
                 
-                var req = https.request(options, function(res) {
-                res.setEncoding('utf-8');
+                var req = https.request(options, function(resp) {
+                resp.setEncoding('utf-8');
 
 
-                res.on('data', function(data) {
+                resp.on('data', function(data) {
                     console.log("Got data back : "+data);
                   responseString += data;
                 });
 
-                res.on('end', function() {
+                resp.on('end', function() {
                   console.log("Done with request");
                   console.log("Response String : " + responseString);
                   var responseJSON = JSON.parse(responseString);
