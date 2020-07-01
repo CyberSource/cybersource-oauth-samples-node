@@ -106,11 +106,12 @@ app.get('/authorize', function (req, res) {
                 res.on('end', function() {
                   console.log("Done with request");
                   console.log("Response String : " + responseString);
-                  console.log("Access Token : " + responseString.access_token);
+                  var responseJSON = JSON.parse(responseString);
+                  console.log("Access Token : " + responseJSON.access_token);
               
-                  console.log("Redirecting to display page with access token : "+responseString.access_token);
-                  res.render('accesstoken', { accesstoken: JSON.stringify(responseString) } );
-                  
+                  console.log("Redirecting to display page with access token : "+responseJSON.access_token);
+                  res.render('accesstoken', { accesstoken: JSON.stringify(responseJSON.access_token) } );
+
                 });
               });
 
