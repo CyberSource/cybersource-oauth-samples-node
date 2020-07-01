@@ -104,20 +104,19 @@ app.get('/authorize', function (req, res) {
                 });
 
                 res.on('end', function() {
-                  console.log("done with request");
-                  console.log(responseString);
+                  console.log("Done with request");
+                  console.log("Response String : " + responseString);
+                  console.log("Access Token : " + responseString.access_token);
+              
+                  console.log("Redirecting to display page with access token : "+responseString.access_token);
+                  res.render('accesstoken', { accesstoken: JSON.stringify(responseString) } );
+                  
                 });
               });
 
               console.log("Making request" + dataString);
               req.write(dataString);
               req.end();
-
-              console.log("Response String : " + responseString);
-              console.log("Access Token : " + responseString.access_token);
-              
-              console.log("Redirecting to display page with access token : "+responseString.access_token);
-              res.render('accesstoken', { accesstoken: JSON.stringify(responseString) } );
                     
             } catch (error) {
                 console.log(error);
