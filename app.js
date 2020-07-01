@@ -15,6 +15,7 @@ var fs = require('fs');
 
 var host = 'api-matest.cybersource.com';
 var tokenResource = '/oauth2/v3/token';
+var invoiceResource = '/invoicing/v2/invoices'
 
 
 // common parameters
@@ -130,67 +131,53 @@ app.get('/authorize', function (req, res) {
 // TOKEN
 app.post('/apicall', function (req, res) {
 
-        var accessToken = JSON.parse(req.body.flexresponse)
-        console.log('Transient token for payment is: ' + JSON.stringify(tokenResponse));
+        var accessToken = JSON.parse(req.body.accesstoken)
+        console.log('Access token for API call is: ' + JSON.stringify(accessToken));
 
          try {
                 
-                var instance = new cybersourceRestApi.PaymentsApi(configObj);
 
-                var clientReferenceInformation = new cybersourceRestApi.Ptsv2paymentsClientReferenceInformation();
-                clientReferenceInformation.code = 'test_flex_payment';
+                var method = "GET";
 
-                var processingInformation = new cybersourceRestApi.Ptsv2paymentsProcessingInformation();
-                processingInformation.commerceIndicator = 'internet';
+                var headers = {
+                  'Content-Type': 'application/json',
+                  'Authorization': 'Bearer '+accessToken
+                };
 
-                var amountDetails = new cybersourceRestApi.Ptsv2paymentsOrderInformationAmountDetails();
-                amountDetails.totalAmount = '102.21';
-                amountDetails.currency = 'USD';
+                var options = {
+                    host: host,
+                    path: invoiceResource,
+                    method: method,
+                    headers: headers,
+                    key: fs.readFileSync('./pnrstage.ic3.com.pem'), 
+                    cert: fs.readFileSync('./pnrstage.crt')
+                  };
 
-                var billTo = new cybersourceRestApi.Ptsv2paymentsOrderInformationBillTo();
-                billTo.country = 'US';
-                billTo.firstName = 'John';
-                billTo.lastName = 'Deo';
-                billTo.phoneNumber = '4158880000';
-                billTo.address1 = 'test';
-                billTo.postalCode = '94105';
-                billTo.locality = 'San Francisco';
-                billTo.administrativeArea = 'MI';
-                billTo.email = 'test@cybs.com';
-                billTo.address2 = 'Address 2';
-                billTo.district = 'MI';
-                billTo.buildingNumber = '123';
-
-                var orderInformation = new cybersourceRestApi.Ptsv2paymentsOrderInformation();
-                orderInformation.amountDetails = amountDetails;
-                orderInformation.billTo = billTo;
-
-                // EVERYTHING ABOVE IS JUST NORMAL PAYMENT INFORMATION
-                // THIS IS WHERE YOU PLUG IN THE MICROFORM TRANSIENT TOKEN
-                var tokenInformation = new cybersourceRestApi.Ptsv2paymentsTokenInformation();
-                tokenInformation.transientTokenJwt = tokenResponse;
-
-                var request = new cybersourceRestApi.CreatePaymentRequest();
-                request.clientReferenceInformation = clientReferenceInformation;
-                request.processingInformation = processingInformation;
-                request.orderInformation = orderInformation;
-                request.tokenInformation = tokenInformation;
-
-                console.log('\n*************** Process Payment ********************* ');
-
-                instance.createPayment(request, function (error, data, response) {
-                    if (error) {
-                        console.log('\nError in process a payment : ' + JSON.stringify(error));
-                    }
-                    else if (data) {
-                        console.log('\nData of process a payment : ' + JSON.stringify(data));
-                        res.render('receipt', { paymentResponse:  JSON.stringify(data)} );
+                var responseString = '';
                 
-                    }
-                    console.log('\nResponse of process a payment : ' + JSON.stringify(response));
-                    console.log('\nResponse Code of process a payment : ' + JSON.stringify(response['status']));
-                    callback(error, data);
+                var req = https.request(options, function(resp) {
+                resp.setEncoding('utf-8');
+
+
+                resp.on('data', function(data) {
+                    console.log("Got data back : "+data);
+                  responseString += data;
                 });
+
+                resp.on('end', function() {
+                  console.log("Done with request");
+                  console.log("Response String : " + responseString);
+              
+                  console.log("Redirecting to display page with invoices : ");
+                  res.render('apicall', { invoicelist: JSON.stringify(responseString) } );
+
+                });
+              });
+
+              console.log("Making request" + dataString);
+
+              req.end();
+                
                 
             } catch (error) {
                 console.log(error);
