@@ -167,9 +167,21 @@ app.post('/apicall', function (req, res) {
                 resp.on('end', function() {
                   console.log("Done with request");
                   console.log("Response String : " + responseString);
+
+                  // Create a datatable object from the JSON Response
+                  var responseObj = JSON.parse(responseString);
+                  var totalInvoices = responseObj.totalInvoices;
+
+                  var invoiceData = {"cols": [{"id": "","label": "Status","pattern": "","type": "string"},
+        {"id": "","label": "Number","pattern": "","type": "number"}],
+    "rows": [
+    {"c":[{"v":"Paid","f":null},{"v":3,"f":null}]},
+        {"c":[{"v":"Unpaid","f":null},{"v":1,"f":null}]}
+    ]
+};
               
                   console.log("Redirecting to display page with invoices : ");
-                  res.render('apicall', { invoicelist: JSON.stringify(responseString) } );
+                  res.render('apicall', { totalInvoices: totalInvoices, invoicelist: JSON.stringify(invoiceData) } );
 
                 });
               });
