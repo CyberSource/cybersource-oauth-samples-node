@@ -198,14 +198,14 @@ app.post('/apicall', function (req, res) {
                     if(currentObj.status == 'PARTIAL'){ partialCount++;};
                     if(currentObj.status == 'CANCELED'){ canceledCount++;};
                 }
-/*
+
                 invoiceData.rows[0].c[1].v = paidCount;
                 invoiceData.rows[1].c[1].v = sentCount;
                 invoiceData.rows[2].c[1].v = draftCount;
                 invoiceData.rows[3].c[1].v = partialCount;
                 invoiceData.rows[4].c[1].v = canceledCount;
 
-*/
+
                   console.log("Redirecting to display page with invoices : ");
                   res.render('apicall', { totalInvoices: totalInvoices, invoicelist: JSON.stringify(invoiceData) } );
 
