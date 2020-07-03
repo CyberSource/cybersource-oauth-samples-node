@@ -175,11 +175,37 @@ app.post('/apicall', function (req, res) {
                   var invoiceData = {"cols": [{"id": "","label": "Status","pattern": "","type": "string"},
         {"id": "","label": "Number","pattern": "","type": "number"}],
     "rows": [
-    {"c":[{"v":"Paid","f":null},{"v":3,"f":null}]},
-        {"c":[{"v":"Unpaid","f":null},{"v":1,"f":null}]}
+        {"c":[{"v":"Paid","f":null},{"v":50,"f":null}]},
+        {"c":[{"v":"Sent","f":null},{"v":20,"f":null}]},
+        {"c":[{"v":"Draft","f":null},{"v":30,"f":null}]},
+        {"c":[{"v":"Partial","f":null},{"v":25,"f":null}]},
+        {"c":[{"v":"Canceled","f":null},{"v":25,"f":null}]}
     ]
 };
-              
+                var paidCount = 0;
+                var sentCount = 0;
+                var draftCount = 0;
+                var partialCount = 0;
+                var canceledCount = 0;
+
+                var invoicesArr = invObj.invoices;
+
+                for(i=0;i<invoicesArr.length;i++){
+                    var currentObj = invoicesArr[i];
+                    if(currentObj.status == 'PAID'){ paidCount++;};
+                    if(currentObj.status == 'SENT'){ sentCount++;};
+                    if((currentObj.status == 'CREATED')||(currentObj.status == 'DRAFT')){ draftCount++;};
+                    if(currentObj.status == 'PARTIAL'){ partialCount++;};
+                    if(currentObj.status == 'CANCELED'){ canceledCount++;};
+                }
+
+                invoiceData.rows[0].c[1].v = paidCount;
+                invoiceData.rows[1].c[1].v = sentCount;
+                invoiceData.rows[2].c[1].v = draftCount;
+                invoiceData.rows[3].c[1].v = partialCount;
+                invoiceData.rows[4].c[1].v = canceledCount;
+
+
                   console.log("Redirecting to display page with invoices : ");
                   res.render('apicall', { totalInvoices: totalInvoices, invoicelist: JSON.stringify(invoiceData) } );
 
