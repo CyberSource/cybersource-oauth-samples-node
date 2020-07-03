@@ -188,7 +188,7 @@ app.post('/apicall', function (req, res) {
                 var partialCount = 0;
                 var canceledCount = 0;
 
-                var invoicesArr = invObj.invoices;
+                var invoicesArr = responseObj.invoices;
 
                 for(i=0;i<invoicesArr.length;i++){
                     var currentObj = invoicesArr[i];
