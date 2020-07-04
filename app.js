@@ -15,30 +15,7 @@ var fs = require('fs');
 
 var host = 'api-matest.cybersource.com';
 var tokenResource = '/oauth2/v3/token';
-var invoiceResource = '/invoicing/v2/invoices'
-
-
-// common parameters
-const AuthenticationType = 'http_signature';
-const RunEnvironment = 'cybersource.environment.SANDBOX';
-const MerchantId = 'testrest';
-
-// http_signature parameters
-const MerchantKeyId = '08c94330-f618-42a3-b09d-e1e43be5efda';
-const MerchantSecretKey = 'yBJxy6LjM2TmcPGu+GaJrHtkke25fPpUX+UY6/L/1tE=';
-
-// jwt parameters
-const KeysDirectory = 'Resource';
-const KeyFileName = 'testrest';
-const KeyAlias = 'testrest';
-const KeyPass = 'testrest';
-
-// logging parameters
-const EnableLog = true;
-const LogFileName = 'cybs';
-const LogDirectory = '../log';
-const LogfileMaxSize = '5242880'; //10 MB In Bytes
-
+var searchResource = '/tss/v2/searches'
 
 
 var app = express();
@@ -137,12 +114,24 @@ app.post('/apicall', function (req, res) {
          try {
                 
 
-                var method = "GET";
+                var method = "POST";
 
                 var headers = {
                   'Content-Type': 'application/json',
                   'Authorization': 'Bearer '+accessToken
                 };
+
+                var dataString = 
+                {
+                  "save": "false",
+                  "name": "MRN",
+                  "timezone": "America/Chicago",
+                  "query": "submitTimeUtc:[NOW/DAY-7DAYS TO NOW/DAY+1DAY}",
+                  "offset": "0",
+                  "limit": "100",
+                  "sort": "id:asc,submitTimeUtc:asc"
+                };
+
 
                 var options = {
                     host: host,
@@ -170,50 +159,38 @@ app.post('/apicall', function (req, res) {
 
                   // Create a datatable object from the JSON Response
                   var responseObj = JSON.parse(responseString);
-                  var totalInvoices = responseObj.totalInvoices;
+                  var totalTransactions = responseObj.totalCount;
 
-                  var invoiceData = {"cols": [{"id": "","label": "Status","pattern": "","type": "string"},
-        {"id": "","label": "Number","pattern": "","type": "number"}],
-    "rows": [
-        {"c":[{"v":"Paid","f":null},{"v":50,"f":null}]},
-        {"c":[{"v":"Sent","f":null},{"v":20,"f":null}]},
-        {"c":[{"v":"Draft","f":null},{"v":30,"f":null}]},
-        {"c":[{"v":"Partial","f":null},{"v":25,"f":null}]},
-        {"c":[{"v":"Canceled","f":null},{"v":25,"f":null}]}
-    ]
-};
-                var paidCount = 0;
-                var sentCount = 0;
-                var draftCount = 0;
-                var partialCount = 0;
-                var canceledCount = 0;
+                  var transactionData = {
+                        "cols": [
+                                    {"id": "","label": "ID","pattern": "","type": "string"},
+                                    {"id": "","label": "Name","pattern": "","type": "string"},
+                                    {"id": "","label": "Amount","pattern": "","type": "string"},
+                                    {"id": "","label": "Last 4","pattern": "","type": "string"},
+                                    {"id": "","label": "Date/Time","pattern": "","type": "string"}
+                                    ],
+                        "rows": []
+                    };
 
-                var invoicesArr = responseObj.invoices;
+                var transactionsArr = responseObj._embedded.transactionSummaries;
 
-                for(i=0;i<invoicesArr.length;i++){
-                    var currentObj = invoicesArr[i];
-                    if(currentObj.status == 'PAID'){ paidCount++;};
-                    if(currentObj.status == 'SENT'){ sentCount++;};
-                    if((currentObj.status == 'CREATED')||(currentObj.status == 'DRAFT')){ draftCount++;};
-                    if(currentObj.status == 'PARTIAL'){ partialCount++;};
-                    if(currentObj.status == 'CANCELED'){ canceledCount++;};
+                for(i=0;i<transactionsArr.length;i++){
+                    var currentObj = transactionsArr[i];
+                    var newRow = {"c":[{"v":currentObj.id,"f":null},{"v":currentObj.orderInformation.billTo.firstName+" "+currentObj.orderInformation.billTo.lastName,"f":null},{"v":currentObj.orderInformation.amountDetails.totalAmount,"f":null},{"v":currentObj.paymentInformation.card.suffix,"f":null},{"v":currentObj.submitTimeUtc,"f":null}]};
+                    transactionData.rows.push(newRow);
                 }
 
-                invoiceData.rows[0].c[1].v = paidCount;
-                invoiceData.rows[1].c[1].v = sentCount;
-                invoiceData.rows[2].c[1].v = draftCount;
-                invoiceData.rows[3].c[1].v = partialCount;
-                invoiceData.rows[4].c[1].v = canceledCount;
 
 
-                  console.log("Redirecting to display page with invoices : ");
-                  res.render('apicall', { totalInvoices: totalInvoices, invoicelist: JSON.stringify(invoiceData) } );
+                  console.log("Redirecting to display page with transactions : ");
+                  res.render('apicall', { totalTransactions: totalTransactions, transactionlist: JSON.stringify(transactionData) } );
 
                 });
               });
 
               console.log("Making request");
 
+              req.write(JSON.stringify(dataString));
               req.end();
                 
                 
