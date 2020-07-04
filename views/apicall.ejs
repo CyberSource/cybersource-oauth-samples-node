@@ -32,18 +32,19 @@
     google.charts.load('current', {'packages':['corechart']});
       
     // Set a callback to run when the Google Visualization API is loaded.
-    google.charts.setOnLoadCallback(drawChart);
+    google.charts.setOnLoadCallback(drawTransactionsChart);
       
-    function drawChart() {
+    function drawTransactionsChart() {
           
       // Create our data table out of JSON data loaded from server.
-      var data = new google.visualization.DataTable(<%-invoicelist%>);
+      var data = new google.visualization.DataTable(<%-translist%>);
 
       // Instantiate and draw our chart, passing in some options.
-      var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+      var chart = new google.visualization.Table(document.getElementById('table_div'));
       chart.draw(data, {width: 400, height: 240});
     }
-    
+
+
     </script>
   </head>
   <body>
@@ -76,14 +77,13 @@
 
         <h2>Your CyberSource account is now linked to Acme Analytics </h2><!--  <img src="https://cdn3.iconfinder.com/data/icons/flat-actions-icons-9/792/Tick_Mark_Circle-512.png" height="50%" width="50px%"/> -->
        
-        <p class="lead">Connect your payment gateway to Acme Analytics so you can easily manage your online business.</p>
+        <p class="lead">You can now view your last 7 days transactions, plus much more.</p>
        
       <div class="row marketing">
-          <h3>Invoices</h3>
-          <p>Total Invoices : <%= totalInvoices %></p>
+          <h3>This Week's Transactions</h3>
          
-         <div id="chart_div"></div>
-        </div>
+         <div id="table_div"></div>
+      </div>
      
     </div>
     </div> 
