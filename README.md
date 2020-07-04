@@ -2,16 +2,10 @@
 
 This repository provides a simple sample application demonstrating OAuth authentication to CyberSource.
 
-While you can see a running example of this sample code at https://cybsoauthsample.azurewebsites.net/, in order to run this sample yourself you will need to request a new CyberSource test partner application credential.  You can request this test client ID & client secret from mailto://developer@cybersource.com 
+While you can see a running example of this sample code at https://cybsoauthsample.azurewebsites.net/, in order to run this sample yourself you will need to request a new CyberSource test partner application credential.  You can request this test client ID & client secret from mailto:developer@cybersource.com When you request the new test client application you will need to provide a redirect URL so that it can be registered against your test application.
 
 ## Usage
 
-1. Clone or download this repository.
-2. cd into the express-oauth directory
-3. Update app.js with your [CyberSource sandbox credentials](https://ebc2test.cybersource.com). 
-4. Run ```npm install```
-5. Run ```DEBUG=express-oauth:* npm start```
-6. Browse to http://localhost:3000/ in your browser
 
 ## Requirements
 * Node
