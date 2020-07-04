@@ -2,6 +2,8 @@
 
 This repository provides a simple sample application demonstrating OAuth authentication to CyberSource.
 
+While you can see a running example of this sample code at https://cybsoauthsample.azurewebsites.net/, in order to run this sample yourself you will need to request a new CyberSource test partner application credential.  You can request this test client ID & client secret from mailto://developer@cybersource.com 
+
 ## Usage
 
 1. Clone or download this repository.
