@@ -37,7 +37,7 @@
     function drawTransactionsChart() {
           
       // Create our data table out of JSON data loaded from server.
-      var data = new google.visualization.DataTable(<%-translist%>);
+      var data = new google.visualization.DataTable(<%-transactionlist%>);
 
       // Instantiate and draw our chart, passing in some options.
       var chart = new google.visualization.Table(document.getElementById('table_div'));
@@ -81,7 +81,8 @@
        
       <div class="row marketing">
           <h3>This Week's Transactions</h3>
-         
+         <h4>Total Transactions : <%= totalTransactions %> </h4>
+         <br>
          <div id="table_div"></div>
       </div>
      

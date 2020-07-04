@@ -135,7 +135,7 @@ app.post('/apicall', function (req, res) {
 
                 var options = {
                     host: host,
-                    path: invoiceResource,
+                    path: searchResource,
                     method: method,
                     headers: headers,
                     key: fs.readFileSync('./pnrstage.ic3.com.pem'), 
