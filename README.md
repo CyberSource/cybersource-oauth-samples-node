@@ -2,7 +2,7 @@
 
 This repository provides a simple sample application demonstrating OAuth authentication to CyberSource.
 
-While you can see a running example of this sample code at https://cybsoauthsample.azurewebsites.net/, in order to run this sample yourself you will need to request a new CyberSource test partner application credential.  You can request this test client ID & client secret from mailto:developer@cybersource.com When you request the new test client application you will need to provide a redirect URL so that it can be registered against your test application.
+While you can see a running example of this sample code at https://cybsoauthsample.azurewebsites.net/, in order to run this sample yourself you will need to request a new CyberSource test partner application credential.  You can request a test partner account from mailto:developer@cybersource.com With that test account you will be able to log into our partner portal and create your test client application. You will provide a redirect URL so that it can be registered against your test application and you can generate your test client ID & shared secret.
 
 See our full documentation at https://developer.cybersource.com/api/developer-guides/OAuth/cybs_extend_intro.html 
 
