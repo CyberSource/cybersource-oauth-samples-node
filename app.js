@@ -66,8 +66,8 @@ app.get('/authorize', function (req, res) {
                     path: tokenResource,
                     method: 'POST',
                     headers: headers,
-                    key: fs.readFileSync('./pnrstage.ic3.com.pem'), 
-                    cert: fs.readFileSync('./pnrstage.crt')
+                    key: fs.readFileSync('./paymentsdemo.pem'), 
+                    cert: fs.readFileSync('./paymentsdemo.crt')
                   };
 
                 var responseString = '';
