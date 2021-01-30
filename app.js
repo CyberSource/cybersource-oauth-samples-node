@@ -66,7 +66,7 @@ app.get('/authorize', function (req, res) {
                     path: tokenResource,
                     method: 'POST',
                     headers: headers,
-                    key : fs.readFileSync('./paymentsdemo.key'),
+                    key : fs.readFileSync('./paymentsdemo.pem'),
                     cert: fs.readFileSync('./paymentsdemo.crt')
                   };
 
