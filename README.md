@@ -69,7 +69,7 @@ openssl req -newkey rsa:2048 -keyout paymentsdemo-csr.key -out paymentsdemo.csr
 ### Request a Certificate
 Request a certificate from a CA (Certification Authority), using the CSR file generated in the step above. A client certificate is essentially the same as a server certificate so that is usually what you need to request.  Once the CSR has been submitted you will have the standard process or organization and domain verification, after which you will be issued with a certificate.
 ### Use the Certificate 
-See examples here for node.js (app.js line 75 & 76).  Regardless of your client you will generally associate the certificate and private key with your HTTP Request object similar to this sample.
+See examples here for node.js (app.js line 69 & 70).  Regardless of your client you will generally associate the certificate and private key with your HTTP Request object similar to this sample.
 
   
 ## Becoming a CyberSource Partner
