@@ -3,7 +3,9 @@
 This repository provides a simple sample application demonstrating OAuth authentication to CyberSource.
 
 While you can see a running example of this sample code at https://cybsoauthsample.azurewebsites.net/, in order to run this sample yourself you will need to request a new CyberSource test partner application credential.  You can request a test partner account from mailto:developer@cybersource.com With that test account you will be able to log into our partner portal and create your test client application. You will provide a redirect URL so that it can be registered against your test application and you can generate your test client ID & shared secret.
-
+  
+__NOTE: If you use our sample client certificates to quickly test your application you will need to request that your partner Common Name is set to www.paymentsdemo.com. See below for more details on Mutual Authentication.__
+  
 See our full documentation at https://developer.cybersource.com/api/developer-guides/OAuth/cybs_extend_intro.html 
 
 ## Usage
@@ -53,6 +55,22 @@ From our sample this is https://github.com/CyberSource/cybersource-oauth-samples
 ![OAuth Screenshots](screenshots/oauth-sample-step3.png "Screenshot showing the OAuth access token.")
 
 __NOTE:  A refresh token, returned in step 2 can be used at any time to revalidate your connection and retrieve a fresh access token__
+  
+## Mutual Authentication
+Mutual authentication can sometimes feel complicated due to the requirement to have a client-side certificate, however we have tried to simplify this as much as possible by providing a sample certificate with this sample application.  To use this sample with your own test partner account you simply have to request that your partner test account is configured with the Common Name attribute www.paymentsdemo.com.
+  
+When you have your own client certificate you just need to have your partner test account (and ultimately production partner account) configured to then use your own CN (Common Name).  Here are the steps for procuring your own client certificate.  
 
+### Generate Your CSR
+For this step you can use OpenSSL (or another tool) to generate your certificate request.  Remember you will need your private key later when you get the certificate issued.
+````
+openssl req -newkey rsa:2048 -keyout paymentsdemo-csr.key -out paymentsdemo.csr
+````
+### Request a Certificate
+Request a certificate from a CA (Certification Authority), using the CSR file generated in the step above. A client certificate is essentially the same as a server certificate so that is usually what you need to request.  Once the CSR has been submitted you will have the standard process or organization and domain verification, after which you will be issued with a certificate.
+### Use the Certificate 
+See examples here for node.js (app.js line 75 & 76).  Regardless of your client you will generally associate the certificate and private key with your HTTP Request object similar to this sample.
+
+  
 ## Becoming a CyberSource Partner
 Once you have successfully tried the sample application you can contact CyberSource to become a registered software partner and retrieve your partner credentials.
