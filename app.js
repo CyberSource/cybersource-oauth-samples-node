@@ -51,7 +51,7 @@ app.get('/authorize', function (req, res) {
                 var clientSecret = process.env.CLIENT_SECRET;
 
                 // The CLient ID is a public shareable value
-                var clientId = "XrcQ1XZU5p";
+                var clientId = "aZjTAJXtHg";
 
                 var dataString = "client_id="+clientId+"&grant_type=authorization_code&code="+authCode+"&client_secret="+clientSecret;
                 var method = "POST";
